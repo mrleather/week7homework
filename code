@@ -1,0 +1,85 @@
+# week7homework
+boolean[] b=new boolean[4];
+Status status;
+boolean p1, p2, p3, p4;
+color bc=color(255), tc=color(0); 
+boolean change=false, collapse=false; 
+
+void setup() {
+  size(1000, 1000);
+  background(bc);
+  frameRate(30);
+  PFont font=createFont("ti", 400);
+  textAlign(CENTER);
+  textFont(font);
+  fill(tc);
+  text("world", width/2, 500);
+}
+
+void draw() {
+  if (collapse) {
+    if (change) {
+      update(0);
+      change=false;
+    } else {
+      update(1);
+      change=true;
+    }
+  }
+}
+
+// mouse
+void mousePressed() {
+  collapse=true;
+}
+
+void update(int g) {
+  for (int i=g; i<width-1; i+=2) {
+    for (int j=g; j<height-1; j+=2) {
+      if (get(i, j)==tc) {
+        p1=true;
+      } else {
+        p1=false;
+      }
+      if (get(i+1, j)==tc) {
+        p2=true;
+      } else {
+        p2=false;
+      }
+      if (get(i, j+1)==tc) {
+        p3=true;
+      } else {
+        p3=false;
+      }    
+      if (get(i+1, j+1)==tc) {
+        p4=true;
+      } else {
+        p4=false;
+      }
+
+      status=new Status(p1, p2, p3, p4); 
+      b=status.output(); 
+
+      if (b[0]==true) {
+        set(i, j, tc);
+      } else {
+        set(i, j, bc);
+      }
+      if (b[1]==true) {
+        set(i+1, j, tc);
+      } else {
+        set(i+1, j, bc);
+      }
+      if (b[2]==true) {
+        set(i, j+1, tc);
+      } else {
+        set(i, j+1, bc);
+      }
+      if (b[3]==true) {
+        set(i+1, j+1, tc);
+      } else {
+        set(i+1, j+1, bc);
+      }
+    }
+  }
+}
